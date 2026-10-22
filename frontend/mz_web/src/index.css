@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   MZ Source design tokens
+   Inspired by Mizoram's green hills: deep forest + emerald for trust and
+   action, warm ivory surfaces, charcoal text, one restrained terracotta
+   accent. All text/background pairs below were checked against WCAG AA.
+   ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+
+  --color-primary: #0F5D3C;        /* white on it: 7.9:1 */
+  --color-primary-deep: #0A4429;   /* white on it: 11.2:1 */
+  --color-primary-tint: #E6F2EA;
+  --color-primary-soft: #CFE5D8;
+  --color-accent: #B4471C;         /* white on it: 5.4:1 */
+  --color-accent-tint: #FBEADF;
+  --color-canvas: #FAF7F0;         /* warm ivory background */
+  --color-ink: #1B2420;            /* text on canvas: 14.9:1 */
+  --color-muted: #55605A;          /* secondary text on canvas: 6.1:1 */
+  --color-line: #E4DDCE;
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-danger: #DC2626;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* Headings get the display face; weights come from existing utility classes. */
+h1, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+::selection { background: var(--color-primary-soft); color: var(--color-ink); }
+
+@layer base {
+  /* Visible keyboard focus everywhere; components with their own ring override this. */
+  :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
+
+/* Skip link for keyboard / screen-reader users */
+.skip-link {
+  position: absolute; left: 12px; top: -48px; z-index: 200;
+  background: var(--color-primary-deep); color: #fff; padding: 10px 16px; border-radius: 10px;
+  font-weight: 600; transition: top .15s ease;
+}
+.skip-link:focus { top: 12px; }
+
+/* Motion: subtle and always optional */
+@keyframes dialog-in {
+  from { opacity: 0; transform: scale(0.97) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.dialog-animate { animation: dialog-in 0.15s ease-out; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up .6s cubic-bezier(.2,.7,.2,1) both; }
+.fade-up-2 { animation-delay: .08s; }
+.fade-up-3 { animation-delay: .16s; }
+
+@keyframes mist-drift {
+  from { transform: translateX(-1.5%); }
+  to { transform: translateX(1.5%); }
+}
+.mist-drift { animation: mist-drift 28s ease-in-out infinite alternate; }
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #EFE9DB 25%, #F7F2E6 37%, #EFE9DB 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

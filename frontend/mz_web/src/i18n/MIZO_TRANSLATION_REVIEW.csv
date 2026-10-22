@@ -1,0 +1,76 @@
+key,english,mizo,status
+"a11y.skip","Skip to main content","",NEEDS TRANSLATION
+"admin.close","Close menu","",NEEDS TRANSLATION
+"admin.login.btn","Sign In","",NEEDS TRANSLATION
+"admin.login.err","Invalid username or password","",NEEDS TRANSLATION
+"admin.login.password","Password","",NEEDS TRANSLATION
+"admin.login.signing","Signing in…","",NEEDS TRANSLATION
+"admin.login.sub","MZ Source Admin Dashboard","",NEEDS TRANSLATION
+"admin.login.title","Admin Sign In","",NEEDS TRANSLATION
+"admin.login.username","Username","",NEEDS TRANSLATION
+"admin.menu","Open menu","",NEEDS TRANSLATION
+"admin.nav.label","Admin","",NEEDS TRANSLATION
+"admin.portal","Admin Portal","",NEEDS TRANSLATION
+"admin.role","Administrator","",NEEDS TRANSLATION
+"admin.signout","Sign Out","",NEEDS TRANSLATION
+"auth.city","City / Town","",NEEDS TRANSLATION
+"auth.creating","Creating…","",NEEDS TRANSLATION
+"auth.err.mobile","Enter a valid 10-digit mobile number","",NEEDS TRANSLATION
+"auth.err.name","Please enter your full name","",NEEDS TRANSLATION
+"auth.err.otp","Enter the OTP sent to your mobile","",NEEDS TRANSLATION
+"auth.fullname","Full Name","",NEEDS TRANSLATION
+"auth.mobile.label","Mobile Number","",NEEDS TRANSLATION
+"auth.otp.label","One-Time Password","",NEEDS TRANSLATION
+"auth.profile.btn","Create Profile & Continue","",NEEDS TRANSLATION
+"auth.profile.title","Create Your Profile","",NEEDS TRANSLATION
+"auth.resend","Resend OTP","",NEEDS TRANSLATION
+"auth.send","Send OTP","",NEEDS TRANSLATION
+"auth.sending","Sending…","",NEEDS TRANSLATION
+"auth.type","Customer Type","",NEEDS TRANSLATION
+"auth.verify.btn","Verify & Continue","",NEEDS TRANSLATION
+"auth.verify.help","Enter the 6-digit code sent to","",NEEDS TRANSLATION
+"auth.verify.title","Verify your number","",NEEDS TRANSLATION
+"auth.verifying","Verifying…","",NEEDS TRANSLATION
+"auth.welcome","Welcome to MZ Source","",NEEDS TRANSLATION
+"common.back","Back","",NEEDS TRANSLATION
+"home.categories","Categories","",NEEDS TRANSLATION
+"home.popular","Popular Products","",NEEDS TRANSLATION
+"home.search","Search products, model number…","",NEEDS TRANSLATION
+"home.viewall","View all","",NEEDS TRANSLATION
+"home.welcome","Welcome back,","",NEEDS TRANSLATION
+"key","English default","Mizo text",filled - verify
+"landing.admin","Admin","",NEEDS TRANSLATION
+"landing.cat.empty","The catalogue is not available right now. Please try again shortly.","",NEEDS TRANSLATION
+"landing.cat.sub","Product groups currently in the MZ Source catalogue. Sign in to browse every item and its details.","",NEEDS TRANSLATION
+"landing.cat.subs","sub-categories","",NEEDS TRANSLATION
+"landing.cat.title","What you can request","",NEEDS TRANSLATION
+"landing.cta.account","Go to my account","",NEEDS TRANSLATION
+"landing.cta.browse","See what is available","",NEEDS TRANSLATION
+"landing.cta.buyer","Continue as Buyer","",NEEDS TRANSLATION
+"landing.eyebrow","Local Products. Easy Requests.","",NEEDS TRANSLATION
+"landing.featured.title","From the catalogue","",NEEDS TRANSLATION
+"landing.final.sub","Verify your mobile number, tell us what you need, and we will come back with a quotation.","",NEEDS TRANSLATION
+"landing.final.title","Ready to send your first request?","",NEEDS TRANSLATION
+"landing.flow.aria","How a request moves","",NEEDS TRANSLATION
+"landing.flow.title","How a request moves","",NEEDS TRANSLATION
+"landing.footer.contact","Contact","",NEEDS TRANSLATION
+"landing.footer.explore","Explore","",NEEDS TRANSLATION
+"landing.footer.nav","Footer","",NEEDS TRANSLATION
+"landing.footer.nocontact","Contact details will appear here.","",NEEDS TRANSLATION
+"landing.how.sub","A simple, request-based process — you see the quotation before you commit.","",NEEDS TRANSLATION
+"landing.how.title","How MZ Source works","",NEEDS TRANSLATION
+"landing.nav.categories","Categories","",NEEDS TRANSLATION
+"landing.nav.contact","Contact","",NEEDS TRANSLATION
+"landing.nav.how","How it works","",NEEDS TRANSLATION
+"landing.nav.label","Primary","",NEEDS TRANSLATION
+"landing.subtitle","Browse electronics, robotics and educational materials, send a request, and receive a quotation — all in one place.","",NEEDS TRANSLATION
+"landing.title","Find the components your project needs.","",NEEDS TRANSLATION
+"landing.trust.aria","Why MZ Source","",NEEDS TRANSLATION
+"lang.label","Language","",NEEDS TRANSLATION
+"nav.cart","Cart","",NEEDS TRANSLATION
+"nav.notifications","Notifications","",NEEDS TRANSLATION
+"nav.portal","Buyer Portal","",NEEDS TRANSLATION
+"nav.profile","Profile","",NEEDS TRANSLATION
+"product.model","Model","",NEEDS TRANSLATION
+"product.price","Price on request","",NEEDS TRANSLATION
+"stable.key","English text","",NEEDS TRANSLATION

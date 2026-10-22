@@ -1,0 +1,398 @@
+{
+  "categories": [
+    {
+      "id": "cat-1",
+      "name": "Project & Electronics",
+      "description": "Electronic components, sensors, modules and development boards for projects",
+      "icon": "cpu",
+      "color": "#155EEF",
+      "bgColor": "#EEF4FF",
+      "subcategories": [
+        {
+          "id": "sub-1-1",
+          "name": "Basic Electronics"
+        },
+        {
+          "id": "sub-1-2",
+          "name": "Sensors"
+        },
+        {
+          "id": "sub-1-3",
+          "name": "Motors & Robotics"
+        },
+        {
+          "id": "sub-1-4",
+          "name": "Drone Components"
+        },
+        {
+          "id": "sub-1-5",
+          "name": "Arduino & Development Boards"
+        },
+        {
+          "id": "sub-1-6",
+          "name": "Displays"
+        },
+        {
+          "id": "sub-1-7",
+          "name": "Power & Batteries"
+        },
+        {
+          "id": "sub-1-8",
+          "name": "Wires & Connectors"
+        },
+        {
+          "id": "sub-1-9",
+          "name": "Switches & Controls"
+        },
+        {
+          "id": "sub-1-10",
+          "name": "Communication Modules"
+        },
+        {
+          "id": "sub-1-11",
+          "name": "Prototyping"
+        }
+      ]
+    },
+    {
+      "id": "cat-2",
+      "name": "Disposable Products",
+      "description": "Eco-friendly and standard disposable catering and food service products",
+      "icon": "package",
+      "color": "#FF8A00",
+      "bgColor": "#FFF7ED",
+      "subcategories": [
+        {
+          "id": "sub-2-1",
+          "name": "Paper Cups"
+        },
+        {
+          "id": "sub-2-2",
+          "name": "Plates"
+        },
+        {
+          "id": "sub-2-3",
+          "name": "Bowls"
+        },
+        {
+          "id": "sub-2-4",
+          "name": "Spoons & Forks"
+        },
+        {
+          "id": "sub-2-5",
+          "name": "Straws"
+        },
+        {
+          "id": "sub-2-6",
+          "name": "Food Containers"
+        },
+        {
+          "id": "sub-2-7",
+          "name": "Napkins"
+        },
+        {
+          "id": "sub-2-8",
+          "name": "Other Disposable Products"
+        }
+      ]
+    },
+    
+    {
+      "id": "cat-3",
+      "name": "Toys & Educational",
+      "description": "Educational toys, STEM kits, puzzles and learning materials",
+      "icon": "graduation-cap",
+      "color": "#16A34A",
+      "bgColor": "#F0FDF4",
+      "hidden": true,
+      "subcategories": [
+        {
+          "id": "sub-3-1",
+          "name": "Educational Toys"
+        },
+        {
+          "id": "sub-3-2",
+          "name": "STEM Products"
+        },
+        {
+          "id": "sub-3-3",  
+          "name": "DIY Kits"
+        },
+        {
+          "id": "sub-3-4",
+          "name": "Puzzles"
+        },
+        {
+          "id": "sub-3-5",
+          "name": "Learning Toys"
+        },
+        {
+          "id": "sub-3-6",
+          "name": "General Toys"
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "HC-SR04 Ultrasonic Distance Sensor Module",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-2",
+      "modelNumber": "HC-SR04",
+      "description": "Ultrasonic ranging module that provides 2cm to 400cm of non-contact measurement functionality with ranging accuracy that can reach to 3mm. Includes ultrasonic transmitter, receiver and control circuit.",
+      "specifications": "Working Voltage: 5V DC | Working Current: 15mA | Working Frequency: 40Hz | Max Range: 4m | Min Range: 2cm | Measuring Angle: 15\u00b0 | Trigger Input: 10\u03bcS TTL pulse | Echo Output: TTL level signal",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#155EEF",
+      "createdAt": "2026-07-01T10:00:00Z"
+    },
+    {
+      "id": "prod-2",
+      "name": "SG90 9g Micro Servo Motor",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-3",
+      "modelNumber": "SG90",
+      "description": "Lightweight and compact micro servo motor suitable for small RC aircraft, robots, and educational projects. Features 3-wire connector for easy integration.",
+      "specifications": "Weight: 9g | Dimension: 22.2\u00d711.8\u00d731mm | Stall torque: 1.8kgf\u00b7cm | Operating speed: 0.1s/60\u00b0 | Operating voltage: 4.8V | Dead band width: 10\u03bcs | Temperature range: -30\u00b0C to +60\u00b0C",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#2F80ED",
+      "createdAt": "2026-07-01T10:00:00Z"
+    },
+    {
+      "id": "prod-3",
+      "name": "Mini DC Toy Motor 3-6V",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-3",
+      "modelNumber": "DC-130",
+      "description": "Small brushed DC motor suitable for science projects, robots and hobby applications. Standard 130 size motor with reliable performance.",
+      "specifications": "Operating Voltage: 3\u20136V DC | No-load Speed: 8000\u201317000 RPM | No-load Current: 70\u2013250mA | Stall Current: 500\u20131800mA | Shaft Diameter: 2mm | Body Size: 27\u00d720\u00d715mm",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#374151",
+      "createdAt": "2026-07-01T10:00:00Z"
+    },
+    {
+      "id": "prod-4",
+      "name": "Arduino Uno R3 Development Board",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-5",
+      "modelNumber": "Arduino-UNO-R3",
+      "description": "The most popular microcontroller development board based on ATmega328P. Ideal for beginners and experienced users. Compatible with a wide range of shields and modules.",
+      "specifications": "Microcontroller: ATmega328P | Operating Voltage: 5V | Input Voltage: 7-12V | Digital I/O Pins: 14 | Analog Input Pins: 6 | Flash Memory: 32 KB | SRAM: 2 KB | Clock Speed: 16 MHz | USB: Type B",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#0891B2",
+      "createdAt": "2026-07-01T10:00:00Z"
+    },
+    {
+      "id": "prod-5",
+      "name": "16\u00d72 LCD Display Module with I2C Backpack",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-6",
+      "modelNumber": "LCD1602-I2C",
+      "description": "Standard 16 column by 2 row LCD display module with I2C interface backpack. Reduces wiring to just 4 wires. Blue backlight with white characters.",
+      "specifications": "Display Type: 16\u00d72 Character LCD | Interface: I2C (PCF8574) | Address: 0x27 (default) | Backlight: Blue LED | Character Size: 5\u00d78 dots | Operating Voltage: 5V | Current: 60mA",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#1D4ED8",
+      "createdAt": "2026-07-02T10:00:00Z"
+    },
+    {
+      "id": "prod-6",
+      "name": "18650 Lithium-Ion Rechargeable Battery 3.7V 2600mAh",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-7",
+      "modelNumber": "18650-2600",
+      "description": "High capacity 18650 cylindrical lithium-ion battery. Suitable for DIY power banks, LED flashlights, and battery pack projects.",
+      "specifications": "Nominal Capacity: 2600mAh | Nominal Voltage: 3.7V | Max Charge Voltage: 4.2V | Discharge Cut-off: 3.0V | Max Discharge Current: 5A | Dimensions: 18.4\u00d765mm | Weight: 46g",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#059669",
+      "createdAt": "2026-07-02T10:00:00Z"
+    },
+    {
+      "id": "prod-7",
+      "name": "Breadboard 830 Points Solderless",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-11",
+      "modelNumber": "BB-830",
+      "description": "Full-size 830-point solderless breadboard for prototyping circuits without soldering. Features tie points with spring-loaded contacts.",
+      "specifications": "Total Tie Points: 830 | Main Section: 630 points | Bus Section: 200 points | Pitch: 2.54mm | Material: ABS plastic | Color: White | Max Current: 5A | Max Voltage: 300V",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#FFFFFF",
+      "createdAt": "2026-07-03T10:00:00Z"
+    },
+    {
+      "id": "prod-8",
+      "name": "HC-05 Bluetooth Serial Module",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-10",
+      "modelNumber": "HC-05",
+      "description": "HC-05 master-slave Bluetooth module for wireless serial communication. Supports both master and slave modes, ideal for microcontroller projects.",
+      "specifications": "Bluetooth Version: 2.0+EDR | Frequency: 2.4GHz ISM | Transmission Power: 4dBm | Sensitivity: -80dBm | Baud Rate: 1200\u20131382400 bps | Operating Voltage: 3.3\u20136V | Range: Up to 10m",
+      "unitType": "Piece",
+      "availability": "Limited Stock",
+      "imageColor": "#7C3AED",
+      "createdAt": "2026-07-03T10:00:00Z"
+    },
+    {
+      "id": "prod-9",
+      "name": "DHT11 Digital Temperature and Humidity Sensor",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-2",
+      "modelNumber": "DHT11",
+      "description": "Low-cost digital temperature and humidity sensor. Easy to use with Arduino, ESP32 and other microcontrollers using a single-wire digital interface.",
+      "specifications": "Temperature Range: 0\u201350\u00b0C | Humidity Range: 20\u201390% RH | Temperature Accuracy: \u00b12\u00b0C | Humidity Accuracy: \u00b15% RH | Sampling Rate: 1 Hz | Operating Voltage: 3.3\u20135.5V | Interface: Single-wire digital",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#DC2626",
+      "createdAt": "2026-07-04T10:00:00Z"
+    },
+    {
+      "id": "prod-10",
+      "name": "L298N Dual H-Bridge Motor Driver Module",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-3",
+      "modelNumber": "L298N",
+      "description": "Dual H-Bridge motor driver module for controlling DC motors and stepper motors. Suitable for robotics and automation projects.",
+      "specifications": "Driver Chip: L298N | Motor Supply Voltage: 5\u201335V | Logic Voltage: 5V | Max Current: 2A per channel | Outputs: 2 DC motors or 1 stepper motor | PWM Frequency: Up to 40kHz | Dimensions: 43\u00d743\u00d727mm",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#D97706",
+      "createdAt": "2026-07-04T10:00:00Z"
+    },
+    {
+      "id": "prod-11",
+      "name": "200ml Disposable Paper Cups (Pack of 100)",
+      "categoryId": "cat-2",
+      "subcategoryId": "sub-2-1",
+      "modelNumber": "PC-200-100",
+      "description": "Food-grade disposable paper cups suitable for hot and cold beverages. Leak-proof design with PE lining. Perfect for events, canteens, and offices.",
+      "specifications": "Capacity: 200ml | Material: Virgin food-grade paper | Coating: PE inner lining | Suitable: Hot & Cold drinks | Pack: 100 pieces | Color: White | Height: 7.5cm | Top Diameter: 7.5cm",
+      "unitType": "Pack",
+      "availability": "In Stock",
+      "imageColor": "#F59E0B",
+      "createdAt": "2026-07-05T10:00:00Z"
+    },
+    {
+      "id": "prod-12",
+      "name": "9 Inch Round Disposable Paper Plates (Pack of 50)",
+      "categoryId": "cat-2",
+      "subcategoryId": "sub-2-2",
+      "modelNumber": "PP-9R-50",
+      "description": "Heavy-duty 9-inch round paper plates with grease-resistant coating. Suitable for serving meals at events, parties and canteens.",
+      "specifications": "Size: 9 Inch Diameter | Material: Thick food-grade paperboard | Coating: Grease-resistant | Pack: 50 pieces | Load: Up to 500g | Shape: Round | Color: White",
+      "unitType": "Pack",
+      "availability": "In Stock",
+      "imageColor": "#D97706",
+      "createdAt": "2026-07-05T10:00:00Z"
+    },
+    {
+      "id": "prod-13",
+      "name": "500ml Kraft Paper Food Container with Lid (Pack of 25)",
+      "categoryId": "cat-2",
+      "subcategoryId": "sub-2-6",
+      "modelNumber": "FC-500-25",
+      "description": "Eco-friendly kraft paper food containers with secure lids. Suitable for rice, noodles, salads and other food items. Biodegradable and sustainable.",
+      "specifications": "Capacity: 500ml | Material: Kraft paper with PE lining | Lid: Includes secure snap lid | Pack: 25 pieces | Suitable: Hot & Cold food | Microwaveable: No | Biodegradable: Yes",
+      "unitType": "Pack",
+      "availability": "In Stock",
+      "imageColor": "#92400E",
+      "createdAt": "2026-07-06T10:00:00Z"
+    },
+    {
+      "id": "prod-14",
+      "name": "Biodegradable Paper Straws (Pack of 100)",
+      "categoryId": "cat-2",
+      "subcategoryId": "sub-2-5",
+      "modelNumber": "PS-BIO-100",
+      "description": "Eco-friendly biodegradable paper straws as an alternative to plastic straws. Comes in assorted colors, suitable for restaurants, cafes and events.",
+      "specifications": "Length: 197mm | Diameter: 6mm | Material: Food-grade paper | Colors: Assorted | Pack: 100 pieces | Biodegradable: Yes | Suitable: Cold beverages | Duration: Stays firm up to 2 hours",
+      "unitType": "Pack",
+      "availability": "In Stock",
+      "imageColor": "#84CC16",
+      "createdAt": "2026-07-06T10:00:00Z"
+    },
+    {
+      "id": "prod-15",
+      "name": "STEM Solar Energy Experiment Kit for Students",
+      "categoryId": "cat-3",
+      "subcategoryId": "sub-3-2",
+      "modelNumber": "STEM-SOLAR-01",
+      "description": "Comprehensive solar energy learning kit for students. Includes solar panels, LED lights, motor, fan, and detailed instruction manual. Ideal for science fairs and school projects.",
+      "specifications": "Components: Solar panel, LED lights, DC motor, fan | Solar Panel: 5V 80mA | Suitable Age: 10+ years | Projects: 10+ included | Instruction Manual: Yes | Material: ABS plastic + metal | Language: English",
+      "unitType": "Set",
+      "availability": "In Stock",
+      "imageColor": "#F59E0B",
+      "createdAt": "2026-07-07T10:00:00Z"
+    },
+    {
+      "id": "prod-16",
+      "name": "Magnetic Building Tiles Set \u2014 60 Pieces",
+      "categoryId": "cat-3",
+      "subcategoryId": "sub-3-1",
+      "modelNumber": "MAG-BUILD-60",
+      "description": "Premium magnetic building tiles for creative and educational play. Develops spatial reasoning, geometry knowledge and creativity in children.",
+      "specifications": "Pieces: 60 | Shapes: Squares, Triangles, Pentagons, Hexagons | Material: BPA-free ABS plastic | Magnets: Built-in N35 magnets | Age: 3+ years | Storage: Carrying bag included | Safety: CE certified",
+      "unitType": "Set",
+      "availability": "In Stock",
+      "imageColor": "#DC2626",
+      "createdAt": "2026-07-07T10:00:00Z"
+    },
+    {
+      "id": "prod-17",
+      "name": "Jumper Wire Set \u2014 Male-Male, Male-Female, Female-Female (120pcs)",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-8",
+      "modelNumber": "JW-SET-120",
+      "description": "Complete set of flexible jumper wires for breadboard and development board connections. Includes male-to-male, male-to-female and female-to-female types.",
+      "specifications": "Total Pieces: 120 (40 per type) | Types: M-M, M-F, F-F | Length: 20cm | Pitch: 2.54mm | Color: Assorted | Wire: 28 AWG | Insulation: PVC | Temperature: -60\u00b0C to +105\u00b0C",
+      "unitType": "Set",
+      "availability": "In Stock",
+      "imageColor": "#8B5CF6",
+      "createdAt": "2026-07-08T10:00:00Z"
+    },
+    {
+      "id": "prod-18",
+      "name": "2-Ply Paper Napkins (Pack of 100)",
+      "categoryId": "cat-2",
+      "subcategoryId": "sub-2-7",
+      "modelNumber": "PN-2PLY-100",
+      "description": "Soft and absorbent 2-ply paper napkins suitable for dining, events and everyday use. White color with embossed pattern.",
+      "specifications": "Ply: 2-ply | Pack: 100 pieces | Size: 30\u00d730cm (unfolded) | Material: Virgin wood pulp | Color: White | Pattern: Embossed | Absorbency: High",
+      "unitType": "Pack",
+      "availability": "In Stock",
+      "imageColor": "#9CA3AF",
+      "createdAt": "2026-07-08T10:00:00Z"
+    },
+    {
+      "id": "prod-19",
+      "name": "Wooden Jigsaw Puzzle Set \u2014 3 Puzzles (Animals Theme)",
+      "categoryId": "cat-3",
+      "subcategoryId": "sub-3-4",
+      "modelNumber": "WP-ANIMAL-3",
+      "description": "Beautiful wooden jigsaw puzzle set featuring detailed animal illustrations. Develops problem-solving skills and fine motor abilities in young children.",
+      "specifications": "Puzzles: 3 in set | Pieces: 100/150/200 per puzzle | Material: High-quality plywood | Thickness: 3mm | Theme: Forest Animals | Age: 5+ years | Includes: Storage bag",
+      "unitType": "Set",
+      "availability": "Limited Stock",
+      "imageColor": "#92400E",
+      "createdAt": "2026-07-09T10:00:00Z"
+    },
+    {
+      "id": "prod-20",
+      "name": "ESP32 Development Board with WiFi & Bluetooth",
+      "categoryId": "cat-1",
+      "subcategoryId": "sub-1-5",
+      "modelNumber": "ESP32-DEVKIT-V1",
+      "description": "Powerful ESP32 development board featuring built-in WiFi and Bluetooth. Ideal for IoT projects, home automation and advanced microcontroller applications.",
+      "specifications": "Chip: ESP32-WROOM-32 | CPU: Dual-core 240MHz | Flash: 4MB | RAM: 520KB | WiFi: 802.11 b/g/n | Bluetooth: 4.2 | GPIO: 34 pins | ADC: 12-bit | USB: Micro USB | Dimensions: 51\u00d728mm",
+      "unitType": "Piece",
+      "availability": "In Stock",
+      "imageColor": "#0891B2",
+      "createdAt": "2026-07-09T10:00:00Z"
+    }
+  ]
+}
