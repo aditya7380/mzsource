@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "mz_backend": {
+      "root": "backend/mz_backend",
+      "framework": "fastapi"
+    },
+    "mz_web": {
+      "root": "frontend/mz_web",
+      "framework": "vite"
+    }
+  },
+  "rewrites": []
+}

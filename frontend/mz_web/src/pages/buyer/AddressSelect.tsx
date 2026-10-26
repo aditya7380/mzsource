@@ -24,16 +24,145 @@ export default function AddressSelect() {
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) { setForm(f => ({ ...f, [key]: value })); }
 
-  function useCurrentLocation() {
+ 
+  async function useCurrentLocation() {
     setError('');
-    if (!navigator.geolocation) { setError('Location services are not available on this device.'); return; }
+
+    if (!window.isSecureContext) {
+      setError('Location requires HTTPS or localhost.');
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      setError('Location is not supported by this browser.');
+      return;
+    }
+
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      pos => { update('lat', pos.coords.latitude); update('lng', pos.coords.longitude); setLocLabel(`${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`); setLocating(false); },
-      () => { setError('Could not access your location. Please allow location permission, or enter your address manually.'); setLocating(false); },
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
+
+    try {
+      const position: GeolocationPosition = await new Promise(
+        (resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(
+            resolve,
+            reject,
+            {
+              enableHighAccuracy: true,
+              timeout: 20000,
+              maximumAge: 0,
+            },
+          );
+        },
+      );
+
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      // GPS coordinates turant existing form mein save karo.
+      setForm((previous) => ({
+        ...previous,
+        lat,
+        lng,
+      }));
+
+      setLocLabel(`${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+
+      // Coordinates ko readable address mein convert karo.
+      const url = new URL(
+        'https://nominatim.openstreetmap.org/reverse',
+      );
+
+      url.searchParams.set('format', 'jsonv2');
+      url.searchParams.set('lat', String(lat));
+      url.searchParams.set('lon', String(lng));
+      url.searchParams.set('addressdetails', '1');
+
+      const response = await fetch(url.toString(), {
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          'GPS location mil gayi, lekin address lookup fail hua. Address manually check karo.',
+        );
+      }
+
+      const result: {
+        address?: Record<string, string | undefined>;
+      } = await response.json();
+
+      const a = result.address;
+
+      if (!a) {
+        throw new Error(
+          'Address details nahi mile. Apna address manually fill karo.',
+        );
+      }
+
+      // Existing form ke fields update karo.
+      setForm((previous) => ({
+        ...previous,
+        lat,
+        lng,
+        building: a.house_number || previous.building,
+        street:
+          a.road ||
+          a.pedestrian ||
+          a.footway ||
+          previous.street,
+        locality:
+          a.neighbourhood ||
+          a.suburb ||
+          a.residential ||
+          previous.locality,
+        city:
+          a.city ||
+          a.town ||
+          a.village ||
+          a.municipality ||
+          a.city_district ||
+          previous.city,
+        district:
+          a.state_district ||
+          a.district ||
+          a.county ||
+          previous.district,
+        state: a.state || previous.state,
+        pinCode: a.postcode || previous.pinCode,
+      }));
+
+      setError('');
+    } catch (error: unknown) {
+      const locationError = error as {
+        code?: number;
+        message?: string;
+      };
+
+      if (typeof locationError.code === 'number') {
+        if (locationError.code === 1) {
+          setError(
+            'Location permission denied. Browser settings mein location allow karo.',
+          );
+        } else if (locationError.code === 3) {
+          setError('Location request timed out. Dobara try karo.');
+        } else {
+          setError(
+            'Current location nahi mil paayi. Device location settings check karo.',
+          );
+        }
+      } else {
+        setError(
+          locationError.message ||
+            'Address lookup fail hua. Address manually fill karo.',
+        );
+      }
+    } finally {
+      setLocating(false);
+    }
   }
+
 
   function continueWithSelected() {
     const saved = currentBuyer?.addresses.find(a => a.id === selectedId);

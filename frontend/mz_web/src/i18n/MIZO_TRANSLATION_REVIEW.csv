@@ -34,11 +34,14 @@ key,english,mizo,status
 "auth.welcome","Welcome to MZ Source","",NEEDS TRANSLATION
 "common.back","Back","",NEEDS TRANSLATION
 "home.categories","Categories","",NEEDS TRANSLATION
+"home.f1","Verified Sourcing","",NEEDS TRANSLATION
+"home.f2","Request Tracking","",NEEDS TRANSLATION
+"home.f3","Quotation First","",NEEDS TRANSLATION
+"home.f4","Local Support","",NEEDS TRANSLATION
 "home.popular","Popular Products","",NEEDS TRANSLATION
 "home.search","Search products, model number…","",NEEDS TRANSLATION
 "home.viewall","View all","",NEEDS TRANSLATION
 "home.welcome","Welcome back,","",NEEDS TRANSLATION
-"key","English default","Mizo text",filled - verify
 "landing.admin","Admin","",NEEDS TRANSLATION
 "landing.cat.empty","The catalogue is not available right now. Please try again shortly.","",NEEDS TRANSLATION
 "landing.cat.sub","Product groups currently in the MZ Source catalogue. Sign in to browse every item and its details.","",NEEDS TRANSLATION
@@ -63,14 +66,24 @@ key,english,mizo,status
 "landing.nav.contact","Contact","",NEEDS TRANSLATION
 "landing.nav.how","How it works","",NEEDS TRANSLATION
 "landing.nav.label","Primary","",NEEDS TRANSLATION
+"landing.step1.body","Explore electronics, robotics and educational materials, then add what you need to your request cart.","",NEEDS TRANSLATION
+"landing.step1.title","Browse & choose","",NEEDS TRANSLATION
+"landing.step2.body","Confirm your delivery address and submit. No online payment is taken at this stage.","",NEEDS TRANSLATION
+"landing.step2.title","Send your request","",NEEDS TRANSLATION
+"landing.step3.body","Our team checks availability and sourcing, then sends you a quotation to review.","",NEEDS TRANSLATION
+"landing.step3.title","Receive a quotation","",NEEDS TRANSLATION
+"landing.step4.body","Confirm the quotation and follow your request from Pending through to Completed.","",NEEDS TRANSLATION
+"landing.step4.title","Confirm & track","",NEEDS TRANSLATION
 "landing.subtitle","Browse electronics, robotics and educational materials, send a request, and receive a quotation — all in one place.","",NEEDS TRANSLATION
 "landing.title","Find the components your project needs.","",NEEDS TRANSLATION
 "landing.trust.aria","Why MZ Source","",NEEDS TRANSLATION
 "lang.label","Language","",NEEDS TRANSLATION
 "nav.cart","Cart","",NEEDS TRANSLATION
+"nav.categories","Categories","",NEEDS TRANSLATION
+"nav.home","Home","",NEEDS TRANSLATION
 "nav.notifications","Notifications","",NEEDS TRANSLATION
 "nav.portal","Buyer Portal","",NEEDS TRANSLATION
 "nav.profile","Profile","",NEEDS TRANSLATION
+"nav.requests","Requests","",NEEDS TRANSLATION
 "product.model","Model","",NEEDS TRANSLATION
 "product.price","Price on request","",NEEDS TRANSLATION
-"stable.key","English text","",NEEDS TRANSLATION
