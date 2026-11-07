@@ -7,13 +7,13 @@ const ICONS: Record<string, React.ElementType> = { cpu: Cpu, package: Package, '
 
 export default function Categories() {
   const navigate = useNavigate();
-  const { categories } = useApp();
+  const { selectableCategories } = useApp();
 
   return (
     <div className="px-5 md:px-8 py-6 max-w-4xl mx-auto">
       <h1 className="text-xl md:text-2xl font-extrabold text-[#1B2420] mb-5">Categories</h1>
       <div className="space-y-3">
-        {categories.filter(c => c.active && c.name !== 'Disposable Products').map(cat => {
+        {selectableCategories.map(cat => {
           const Icon = ICONS[cat.icon] || Boxes;
           return (
             <button key={cat.id} onClick={() => navigate(`/buyer-app/categories/${cat.id}`)}

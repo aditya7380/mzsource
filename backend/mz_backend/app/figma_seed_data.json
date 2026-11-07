@@ -96,7 +96,6 @@
         }
       ]
     },
-    
     {
       "id": "cat-3",
       "name": "Toys & Educational",
@@ -104,7 +103,6 @@
       "icon": "graduation-cap",
       "color": "#16A34A",
       "bgColor": "#F0FDF4",
-      "hidden": true,
       "subcategories": [
         {
           "id": "sub-3-1",
@@ -115,7 +113,7 @@
           "name": "STEM Products"
         },
         {
-          "id": "sub-3-3",  
+          "id": "sub-3-3",
           "name": "DIY Kits"
         },
         {

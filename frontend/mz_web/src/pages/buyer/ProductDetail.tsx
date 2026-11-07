@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronRight, Package, Minus, Plus, CheckCircle2, Info, History, X as XIcon } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Dialog } from '../../components/common/Dialog';
+import { ProductImage } from '../../components/common/ProductImage';
 import { StatusBadge } from '../../components/common/Misc';
 import { formatDate } from '../../lib/format';
 import type { RequestStatus } from '../../data/appTypes';
@@ -59,9 +60,7 @@ export default function ProductDetail() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Image */}
-          <div className="aspect-square w-full rounded-2xl flex items-center justify-center" style={{ backgroundColor: product.imageColor || '#E6F2EA' }}>
-            <Package className="w-20 h-20 text-white/85" strokeWidth={1.3} />
-          </div>
+          <ProductImage name={product.name} alt={product.name} imageUrl={product.imageUrl} imageColor={product.imageColor} eager className="aspect-square w-full rounded-2xl border border-[#E4DDCE]" iconClassName="w-20 h-20" />
 
           <div>
             <h1 className="text-xl md:text-2xl font-extrabold text-[#1B2420] leading-snug">{product.name}</h1>

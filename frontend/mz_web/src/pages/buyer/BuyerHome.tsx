@@ -17,9 +17,9 @@ const FEATURES = [
 export default function BuyerHome() {
   const navigate = useNavigate();
   const { t } = useT();
-  const { categories, products, currentBuyer } = useApp();
+  const { selectableCategories, buyerProducts, currentBuyer } = useApp();
   const firstName = currentBuyer?.fullName?.split(' ')[0] || 'there';
-  const popular = products.filter(p => p.active).slice(0, 8);
+  const popular = buyerProducts.slice(0, 8);
 
   return (
     <div>
@@ -57,7 +57,7 @@ export default function BuyerHome() {
           <button onClick={() => navigate('/buyer-app/categories')} className="text-xs font-semibold text-[#0F5D3C] flex items-center gap-0.5">{t('home.viewall', 'View all')} <ChevronRight className="w-3.5 h-3.5" /></button>
         </div>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-8">
-          {categories.filter(c => c.active && c.name !== 'Disposable Products').map(cat => {
+          {selectableCategories.map(cat => {
             const Icon = ICONS[cat.icon] || Boxes;
             return (
               <button key={cat.id} onClick={() => navigate(`/buyer-app/categories/${cat.id}`)}

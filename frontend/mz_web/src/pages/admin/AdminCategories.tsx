@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Boxes, Cpu, Package, GraduationCap, Edit2, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { isRetiredCategory } from '../../lib/catalogRules';
 
 const ICONS: Record<string, React.ElementType> = { cpu: Cpu, package: Package, 'graduation-cap': GraduationCap };
 
@@ -9,6 +10,8 @@ const emptyForm: FormState = { name: '', description: '', icon: 'package', color
 
 export default function AdminCategories() {
   const { categories, addCategory, updateCategory, addSubcategory } = useApp();
+  // The retired category is hidden here too; its products are NOT deleted
+  const shownCategories = categories.filter(c => !isRetiredCategory(c));
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -39,10 +42,10 @@ export default function AdminCategories() {
         <h1 className="text-xl lg:text-2xl font-extrabold text-[#1B2420]">Categories</h1>
         <button onClick={openNew} className="h-10 px-4 rounded-xl bg-[#0F5D3C] text-white font-bold text-sm hover:bg-[#0A4429]">+ Add Category</button>
       </div>
-      <p className="text-sm text-[#55605A] mb-5">{categories.length} categories</p>
+      <p className="text-sm text-[#55605A] mb-5">{shownCategories.length} categories</p>
 
       <div className="grid lg:grid-cols-2 gap-4">
-        {categories.map(cat => {
+        {shownCategories.map(cat => {
           const Icon = ICONS[cat.icon] || Boxes;
           return (
             <div key={cat.id} className="bg-white rounded-2xl border border-[#E4DDCE] p-5">

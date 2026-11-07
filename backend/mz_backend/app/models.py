@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import (
-    Boolean, Column, DateTime, Enum, Float, ForeignKey, Integer, String, Text
+    Boolean, Column, DateTime, Enum, Float, ForeignKey, Integer, String, Table, Text, UniqueConstraint
 )
 from sqlalchemy.orm import relationship
 
@@ -107,6 +107,35 @@ class Subcategory(Base):
     category = relationship("Category", back_populates="subcategories")
 
 
+# Many-to-many: a product may suit several educational levels
+product_educational_levels = Table(
+    "product_educational_levels",
+    Base.metadata,
+    Column("product_id", String, ForeignKey("products.id", ondelete="CASCADE"), primary_key=True),
+    Column("level_id", String, ForeignKey("educational_levels.id", ondelete="CASCADE"), primary_key=True),
+)
+
+
+class EducationalLevel(Base):
+    """Fixed classification (see app/educational_levels.py). Read-only through the API."""
+    __tablename__ = "educational_levels"
+    __table_args__ = (UniqueConstraint("group_name", "name", name="uq_educational_level_group_name"),)
+
+    id = Column(String, primary_key=True)
+    group_name = Column(String, nullable=False)
+    group_order = Column(Integer, nullable=False, default=0)
+    name = Column(String, nullable=False)
+    sort_order = Column(Integer, nullable=False, default=0)
+
+
+class AppMigration(Base):
+    """Remembers which one-time data upgrades have already run (see app/migrations.py)."""
+    __tablename__ = "app_migrations"
+
+    name = Column(String, primary_key=True)
+    applied_at = Column(DateTime, default=datetime.utcnow)
+
+
 class Product(Base):
     __tablename__ = "products"
 
@@ -123,9 +152,16 @@ class Product(Base):
     image_url = Column(String, nullable=True)
     active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    # "individual" (default, includes every existing product) or "kit" (Project Kit)
+    product_type = Column(String, nullable=False, default="individual", server_default="individual")
 
     category = relationship("Category", back_populates="products")
     subcategory = relationship("Subcategory")
+    educational_levels = relationship("EducationalLevel", secondary=product_educational_levels, lazy="selectin")
+
+    @property
+    def educational_level_ids(self):
+        return sorted(level.id for level in self.educational_levels)
 
 
 # ---------------------------------------------------------------------------

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, Package, ShoppingCart } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { EmptyState } from '../../components/common/Misc';
+import { ProductImage } from '../../components/common/ProductImage';
 
 export default function RequestCart() {
   const navigate = useNavigate();
@@ -27,9 +28,7 @@ export default function RequestCart() {
             if (!p) return null;
             return (
               <div key={item.productId} className="flex gap-4 bg-white rounded-2xl border border-[#E4DDCE] p-4">
-                <div className="w-20 h-20 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: p.imageColor || '#E6F2EA' }}>
-                  <Package className="w-8 h-8 text-white/85" strokeWidth={1.5} />
-                </div>
+                <ProductImage imageUrl={p.imageUrl} imageColor={p.imageColor} className="w-20 h-20 rounded-xl flex-shrink-0 border border-[#E4DDCE]" iconClassName="w-8 h-8" />
                 <div className="flex-1 min-w-0 flex flex-col justify-between">
                   <div>
                     <p className="text-[14px] font-semibold text-[#1B2420] leading-snug line-clamp-2">{p.name}</p>

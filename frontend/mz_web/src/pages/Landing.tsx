@@ -15,11 +15,10 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = { cpu: Cpu, package: P
 export default function Landing() {
   const navigate = useNavigate();
   const { t } = useT();
-  const { categories, products, settings, currentBuyer, authLoading } = useApp();
+  const { selectableCategories, buyerProducts, settings, currentBuyer, authLoading } = useApp();
 
-  const activeCategories = categories.filter(c => c.active && c.name !== 'Disposable Products');
-  const featured = [...products]
-    .filter(p => p.active)
+  const activeCategories = selectableCategories;
+  const featured = [...buyerProducts]
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 4);
   const buyerHref = currentBuyer ? '/buyer-app/home' : '/buyer-app';

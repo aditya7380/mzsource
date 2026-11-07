@@ -16,6 +16,8 @@ from app.auth import hash_password
 from app.config import settings as app_settings
 from app.database import Base, SessionLocal, engine
 from app import models
+from app.educational_levels import EDUCATIONAL_LEVEL_GROUPS
+from app.migrations import run_data_migrations, run_schema_migrations
 
 DATA_FILE = Path(__file__).parent / "figma_seed_data.json"
 
@@ -25,8 +27,22 @@ def load_figma_data():
         return json.load(f)
 
 
+def seed_educational_levels(db):
+    """Insert any missing level (matched by fixed id), so re-running never duplicates."""
+    added = 0
+    for group_order, (group_name, levels) in enumerate(EDUCATIONAL_LEVEL_GROUPS, start=1):
+        for sort_order, (level_id, name) in enumerate(levels, start=1):
+            if not db.get(models.EducationalLevel, level_id):
+                db.add(models.EducationalLevel(id=level_id, group_name=group_name, group_order=group_order, name=name, sort_order=sort_order))
+                added += 1
+    db.commit()
+    if added:
+        print(f"[seed] educational levels ready ({added} added)")
+
+
 def run():
     Base.metadata.create_all(bind=engine)
+    run_schema_migrations(engine)  # adds products.product_type to an existing database
     db = SessionLocal()
     try:
         data = load_figma_data()
@@ -120,8 +136,10 @@ def run():
                 ),
             ))
             print(f"[seed] created demo buyer {demo.id} (mobile 9999999999)")
+        seed_educational_levels(db)
     finally:
         db.close()
+    run_data_migrations(engine)  # one-time steps, after seeding so a fresh database is covered too
 
 
 if __name__ == "__main__":

@@ -2,43 +2,63 @@ import React, { useState } from 'react';
 import { Search, Package, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { EmptyState } from '../../components/common/Misc';
+import { ProductImage, safeImageUrl } from '../../components/common/ProductImage';
 import { UNIT_TYPES } from '../../data/appTypes';
-import type { AvailabilityStatus, Product, UnitType } from '../../data/appTypes';
+import type { AvailabilityStatus, Product, ProductType, UnitType } from '../../data/appTypes';
+import { LevelPicker } from '../../components/education/LevelPicker';
 
 const AVAILABILITY: AvailabilityStatus[] = ['In Stock', 'Limited Stock', 'Out of Stock', 'On Request'];
 
 interface FormState {
-  id?: string; name: string; categoryId: string; subcategoryId: string; modelNumber: string;
+  id?: string; name: string; categoryId: string; subcategoryId: string; modelNumber: string; imageUrl: string;
   description: string; specifications: string; unitType: UnitType; availability: AvailabilityStatus; active: boolean;
+  productType: ProductType; educationalLevelIds: string[];
 }
-const emptyForm: FormState = { name: '', categoryId: '', subcategoryId: '', modelNumber: '', description: '', specifications: '', unitType: 'Piece', availability: 'In Stock', active: true };
+const emptyForm: FormState = { name: '', categoryId: '', subcategoryId: '', modelNumber: '', imageUrl: '', description: '', specifications: '', unitType: 'Piece', availability: 'In Stock', active: true, productType: 'individual', educationalLevelIds: [] };
 
 export default function AdminProducts() {
-  const { categories, products, addProduct, updateProduct, deleteProduct } = useApp();
+  const { categories, selectableCategories, educationalLevels, products, addProduct, updateProduct, deleteProduct } = useApp();
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState('All');
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [urlError, setUrlError] = useState(false);
+  const [levelError, setLevelError] = useState(false);
+  const [formError, setFormError] = useState('');
+  // true while editing a product whose category has been removed from the shop
+  const [legacyCategory, setLegacyCategory] = useState(false);
 
   const filtered = products.filter(p =>
     (catFilter === 'All' || p.categoryId === catFilter) &&
     (!search.trim() || p.name.toLowerCase().includes(search.toLowerCase()) || p.modelNumber.toLowerCase().includes(search.toLowerCase())),
   );
 
-  function openNew() { setForm(emptyForm); setModalOpen(true); }
+  function resetMessages() { setUrlError(false); setLevelError(false); setFormError(''); }
+  function openNew() { resetMessages(); setLegacyCategory(false); setForm(emptyForm); setModalOpen(true); }
   function openEdit(p: Product) {
-    setForm({ id: p.id, name: p.name, categoryId: p.categoryId, subcategoryId: p.subcategoryId, modelNumber: p.modelNumber, description: p.description, specifications: p.specifications, unitType: p.unitType, availability: p.availability, active: p.active });
+    resetMessages();
+    const legacy = !selectableCategories.some(c => c.id === p.categoryId);
+    setLegacyCategory(legacy);
+    setForm({ id: p.id, name: p.name, categoryId: legacy ? '' : p.categoryId, subcategoryId: legacy ? '' : p.subcategoryId, modelNumber: p.modelNumber, imageUrl: p.imageUrl || '', description: p.description, specifications: p.specifications, unitType: p.unitType, availability: p.availability, active: p.active, productType: p.productType ?? 'individual', educationalLevelIds: p.educationalLevelIds ?? [] });
     setModalOpen(true);
   }
 
   async function save() {
-    if (!form.name.trim() || !form.categoryId) return;
+    if (!form.name.trim()) return;
+    if (!form.categoryId && !legacyCategory) return;
+    resetMessages();
+    if (form.imageUrl.trim() && !safeImageUrl(form.imageUrl)) { setUrlError(true); return; }
+    if (form.productType === 'kit' && form.educationalLevelIds.length === 0) { setLevelError(true); return; }
     setSaving(true);
     try {
-      const payload = { name: form.name.trim(), categoryId: form.categoryId, subcategoryId: form.subcategoryId || null, modelNumber: form.modelNumber, description: form.description, specifications: form.specifications, unitType: form.unitType, availability: form.availability, active: form.active };
+      const payload: Record<string, unknown> = { name: form.name.trim(), modelNumber: form.modelNumber, imageUrl: form.imageUrl.trim() || null, description: form.description, specifications: form.specifications, unitType: form.unitType, availability: form.availability, active: form.active, productType: form.productType, educationalLevelIds: form.educationalLevelIds };
+      // A product in the removed category keeps its category/subcategory unless the admin deliberately picks a new category
+      if (form.categoryId) { payload.categoryId = form.categoryId; payload.subcategoryId = form.subcategoryId || null; }
       if (form.id) await updateProduct(form.id, payload); else await addProduct(payload);
       setModalOpen(false);
+    } catch (e: any) {
+      setFormError(e?.message || 'Could not save the product. Please try again.');
     } finally { setSaving(false); }
   }
 
@@ -61,7 +81,7 @@ export default function AdminProducts() {
         </div>
         <div className="flex gap-2 overflow-x-auto no-scrollbar">
           <button onClick={() => setCatFilter('All')} className={`flex-shrink-0 px-3.5 h-9 rounded-full text-[13px] font-semibold border ${catFilter === 'All' ? 'bg-[#0F5D3C] text-white border-[#0F5D3C]' : 'bg-white text-[#55605A] border-[#E4DDCE]'}`}>All</button>
-          {categories.map(c => (
+          {selectableCategories.map(c => (
             <button key={c.id} onClick={() => setCatFilter(c.id)} className={`flex-shrink-0 px-3.5 h-9 rounded-full text-[13px] font-semibold border whitespace-nowrap ${catFilter === c.id ? 'text-white border-transparent' : 'bg-white border-[#E4DDCE]'}`} style={catFilter === c.id ? { backgroundColor: c.color } : { color: c.color }}>{c.name}</button>
           ))}
         </div>
@@ -71,7 +91,7 @@ export default function AdminProducts() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(p => (
             <div key={p.id} className={`bg-white rounded-2xl border p-4 ${p.active ? 'border-[#E4DDCE]' : 'border-dashed border-[#6B756F] opacity-60'}`}>
-              <div className="w-full aspect-video rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: p.imageColor }}><Package className="w-8 h-8 text-white/85" /></div>
+              <ProductImage imageUrl={p.imageUrl} imageColor={p.imageColor} className="w-full aspect-video rounded-xl mb-3 border border-[#E4DDCE]" iconClassName="w-8 h-8" />
               <p className="text-[13.5px] font-bold text-[#1B2420] line-clamp-2 min-h-[2.4em]">{p.name}</p>
               <p className="text-[11px] text-[#55605A] mt-0.5">Model: {p.modelNumber || '—'}</p>
               <div className="flex flex-wrap gap-1.5 mt-2">
@@ -95,10 +115,45 @@ export default function AdminProducts() {
             <div className="p-5 space-y-3.5">
               <TextField label="Product Name *" value={form.name} onChange={v => setForm(f => ({ ...f, name: v }))} />
               <div className="grid grid-cols-2 gap-3">
-                <SelectField label="Category *" value={form.categoryId} onChange={v => setForm(f => ({ ...f, categoryId: v, subcategoryId: '' }))} options={categories.map(c => ({ label: c.name, value: c.id }))} placeholder="Select category" />
+                <SelectField label={legacyCategory ? 'Category' : 'Category *'} value={form.categoryId} onChange={v => setForm(f => ({ ...f, categoryId: v, subcategoryId: '' }))} options={selectableCategories.map(c => ({ label: c.name, value: c.id }))} placeholder="Select category" />
                 <SelectField label="Subcategory" value={form.subcategoryId} onChange={v => setForm(f => ({ ...f, subcategoryId: v }))} options={(activeCategory?.subcategories || []).map(s => ({ label: s.name, value: s.id }))} placeholder="Select subcategory" />
               </div>
+              {legacyCategory && !form.categoryId && (
+                <p className="text-[13px] text-[#B4471C] bg-[#FBEADF] rounded-xl p-3" role="note">
+                  This product is in a category that has been removed from the shop, so buyers cannot see it. Leave the category empty to keep it exactly as it is, or choose a category to move it.
+                </p>
+              )}
               <TextField label="Model Number" value={form.modelNumber} onChange={v => setForm(f => ({ ...f, modelNumber: v }))} />
+              <div>
+                <TextField label="Image URL (optional)" placeholder="https://example.com/product-photo.jpg" value={form.imageUrl} onChange={v => { setUrlError(false); setForm(f => ({ ...f, imageUrl: v })); }} />
+                <p className={`text-xs mt-1 ${urlError ? 'text-[#B4471C] font-semibold' : 'text-[#6B756F]'}`} role={urlError ? 'alert' : undefined}>
+                  {urlError ? 'The link must start with https:// (or / for a file in the public folder).' : 'Paste a direct link to the photo. Leave empty to keep the coloured box.'}
+                </p>
+                {safeImageUrl(form.imageUrl) && (
+                  <ProductImage imageUrl={form.imageUrl} imageColor="#E6F2EA" className="mt-2 w-28 h-28 rounded-xl border border-[#E4DDCE]" iconClassName="w-8 h-8" />
+                )}
+              </div>
+              <fieldset>
+                <legend className="text-sm font-medium text-[#1B2420] mb-1.5">Product Type</legend>
+                <div className="grid grid-cols-2 gap-2">
+                  {([['individual', 'Individual Product'], ['kit', 'Project Kit']] as [ProductType, string][]).map(([value, label]) => (
+                    <label key={value} className={`flex items-center gap-2.5 h-11 px-3 rounded-xl border cursor-pointer text-sm font-medium ${form.productType === value ? 'border-[#0F5D3C] bg-[#E6F2EA] text-[#0F5D3C]' : 'border-[#E4DDCE] text-[#1B2420]'}`}>
+                      <input type="radio" name="productType" value={value} checked={form.productType === value} onChange={() => { setLevelError(false); setForm(f => ({ ...f, productType: value })); }} className="accent-[#0F5D3C]" />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend className="text-sm font-medium text-[#1B2420] mb-1.5">
+                  Educational Level {form.productType === 'kit' && <span className="text-[#B4471C]">*</span>}
+                  <span className="font-normal text-[#55605A]"> — {form.productType === 'kit' ? 'required for Project Kits' : 'optional'}; you can choose more than one</span>
+                </legend>
+                <LevelPicker levels={educationalLevels} selected={form.educationalLevelIds} onChange={ids => { setLevelError(false); setForm(f => ({ ...f, educationalLevelIds: ids })); }} />
+                <p className={`text-xs mt-1 ${levelError ? 'text-[#B4471C] font-semibold' : 'text-[#6B756F]'}`} role={levelError ? 'alert' : undefined}>
+                  {levelError ? 'Please choose at least one educational level for a Project Kit.' : `${form.educationalLevelIds.length} selected`}
+                </p>
+              </fieldset>
               <TextAreaField label="Description" value={form.description} onChange={v => setForm(f => ({ ...f, description: v }))} />
               <TextAreaField label="Specifications" value={form.specifications} onChange={v => setForm(f => ({ ...f, specifications: v }))} hint="Use 'Key: Value | Key: Value' format" />
               <div className="grid grid-cols-2 gap-3">
@@ -106,6 +161,7 @@ export default function AdminProducts() {
                 <SelectField label="Availability" value={form.availability} onChange={v => setForm(f => ({ ...f, availability: v as AvailabilityStatus }))} options={AVAILABILITY.map(a => ({ label: a, value: a }))} />
               </div>
               <label className="flex items-center gap-2.5 pt-1"><input type="checkbox" checked={form.active} onChange={e => setForm(f => ({ ...f, active: e.target.checked }))} className="w-4 h-4 rounded accent-[#0F5D3C]" /><span className="text-sm text-[#1B2420]">Active (visible to buyers)</span></label>
+              {formError && <p className="text-[13px] text-[#DC2626] font-semibold" role="alert">{formError}</p>}
               <button onClick={save} disabled={saving} className="w-full h-12 rounded-xl bg-[#0F5D3C] text-white font-bold text-sm hover:bg-[#0A4429] disabled:opacity-60 mt-2">{saving ? 'Saving…' : form.id ? 'Save Changes' : 'Add Product'}</button>
             </div>
           </div>
@@ -115,8 +171,8 @@ export default function AdminProducts() {
   );
 }
 
-function TextField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
-  return <div><label className="text-sm font-medium text-[#1B2420] mb-1.5 block">{label}</label><input value={value} onChange={e => onChange(e.target.value)} className="w-full h-11 rounded-xl border border-[#E4DDCE] px-3.5 text-sm outline-none focus:ring-2 focus:ring-[#0F5D3C]/30 focus:border-[#0F5D3C]" /></div>;
+function TextField({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
+  return <div><label className="text-sm font-medium text-[#1B2420] mb-1.5 block">{label}</label><input value={value} placeholder={placeholder} onChange={e => onChange(e.target.value)} className="w-full h-11 rounded-xl border border-[#E4DDCE] px-3.5 text-sm outline-none focus:ring-2 focus:ring-[#0F5D3C]/30 focus:border-[#0F5D3C]" /></div>;
 }
 function TextAreaField({ label, value, onChange, hint }: { label: string; value: string; onChange: (v: string) => void; hint?: string }) {
   return <div><label className="text-sm font-medium text-[#1B2420] mb-1.5 block">{label}</label><textarea rows={2} value={value} onChange={e => onChange(e.target.value)} className="w-full rounded-xl border border-[#E4DDCE] px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#0F5D3C]/30 focus:border-[#0F5D3C] resize-none" />{hint && <p className="text-xs text-[#6B756F] mt-1">{hint}</p>}</div>;

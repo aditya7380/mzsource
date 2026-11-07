@@ -1,8 +1,9 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { api, getAdminToken, getBuyerToken, setAdminToken, setBuyerToken } from '../lib/api';
 import type {
-  Address, Category, CustomProductRequest, Customer, Notification, Product, Request, Settings,
+  Address, Category, CustomProductRequest, Customer, EducationalLevel, Notification, Product, Request, Settings,
 } from '../data/appTypes';
+import { isBuyerVisibleProduct, isSelectableCategory } from '../lib/catalogRules';
 
 const CART_KEY = 'mzsource_cart';
 
@@ -14,6 +15,11 @@ interface AppContextValue {
   // data
   categories: Category[];
   products: Product[];
+  /** Categories buyers can see and admins can choose (active and not retired) */
+  selectableCategories: Category[];
+  /** Products buyers can see (active, in a selectable category) */
+  buyerProducts: Product[];
+  educationalLevels: EducationalLevel[];
   customers: Customer[];
   requests: Request[];
   notifications: Notification[];
@@ -94,6 +100,7 @@ const AppContext = createContext<AppContextValue | null>(null);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [educationalLevels, setEducationalLevels] = useState<EducationalLevel[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [requests, setRequests] = useState<Request[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -109,7 +116,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }, [cart]);
 
   const refreshCatalogue = useCallback(async () => {
-    const [cats, prods] = await Promise.all([api.categories.list(), api.products.list()]);
+    const [cats, prods, levels] = await Promise.all([
+      api.categories.list(),
+      api.products.list(),
+      // Optional: if the backend has not been updated yet this simply stays empty and the site works as before
+      api.educationalLevels.list().catch(() => [] as EducationalLevel[]),
+    ]);
+    setEducationalLevels(levels);
     setCategories(cats);
     setProducts(prods);
   }, []);
@@ -360,8 +373,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setSettings(prev => ({ ...(prev as Settings), ...updated }));
   }, []);
 
+  const selectableCategories = useMemo(() => categories.filter(isSelectableCategory), [categories]);
+  const buyerProducts = useMemo(() => products.filter(p => isBuyerVisibleProduct(p, categories)), [products, categories]);
+
   const value: AppContextValue = {
-    categories, products, customers, requests, notifications, customProductRequests, settings,
+    categories, products, selectableCategories, buyerProducts, educationalLevels, customers, requests, notifications, customProductRequests, settings,
     currentBuyer, adminLoggedIn, authLoading,
     cart, addToCart, updateCartQuantity, removeFromCart, clearCart,
     getProduct, getCategory, getSubcategory, getBuyerRequests, getBuyerNotifications,

@@ -61,6 +61,9 @@ export const api = {
     remove: (id: string) => request<void>('DELETE', `/api/categories/${id}`, undefined, 'admin'),
     addSubcategory: (categoryId: string, name: string) => request('POST', `/api/categories/${categoryId}/subcategories`, { name, active: true }, 'admin'),
   },
+  educationalLevels: {
+    list: () => request<any[]>('GET', '/api/educational-levels'),
+  },
   products: {
     list: () => request<any[]>('GET', '/api/products?active_only=false&limit=500'),
     create: (payload: any) => request<any>('POST', '/api/products', payload, 'admin'),

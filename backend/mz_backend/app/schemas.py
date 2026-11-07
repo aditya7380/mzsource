@@ -4,7 +4,7 @@ frontend. Field names use camelCase aliases so the existing TypeScript
 interfaces in src/app/data/mockData.ts can be reused almost verbatim.
 """
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -17,6 +17,10 @@ from app.models import (
 def to_camel(s: str) -> str:
     parts = s.split("_")
     return parts[0] + "".join(p.title() for p in parts[1:])
+
+
+# "individual" = a single product, "kit" = a Project Kit
+ProductType = Literal["individual", "kit"]
 
 
 class CamelModel(BaseModel):
@@ -89,10 +93,11 @@ class ProductBase(CamelModel):
     image_color: str = "#EEF4FF"
     image_url: Optional[str] = None
     active: bool = True
+    product_type: ProductType = "individual"
 
 
 class ProductCreate(ProductBase):
-    pass
+    educational_level_ids: List[str] = Field(default_factory=list)
 
 
 class ProductUpdate(CamelModel):
@@ -107,11 +112,22 @@ class ProductUpdate(CamelModel):
     image_color: Optional[str] = None
     image_url: Optional[str] = None
     active: Optional[bool] = None
+    product_type: Optional[ProductType] = None
+    educational_level_ids: Optional[List[str]] = None
 
 
 class ProductOut(ProductBase):
     id: str
     created_at: datetime
+    educational_level_ids: List[str] = Field(default_factory=list)
+
+
+class EducationalLevelOut(CamelModel):
+    id: str
+    group_name: str
+    group_order: int
+    name: str
+    sort_order: int
 
 
 # ---------------------------------------------------------------------------

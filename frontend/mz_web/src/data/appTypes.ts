@@ -1,6 +1,15 @@
 export type CustomerType = 'Student' | 'Teacher' | 'Shopkeeper' | 'School/College' | 'Business' | 'Individual' | 'Other';
 export type UnitType = 'Piece' | 'Pack' | 'Set' | 'Box' | 'Pair' | 'Roll' | 'Packet' | 'Dozen' | 'Kilogram';
 export type AvailabilityStatus = 'In Stock' | 'Limited Stock' | 'Out of Stock' | 'On Request';
+export type ProductType = 'individual' | 'kit';
+
+export interface EducationalLevel {
+  id: string;
+  groupName: string;
+  groupOrder: number;
+  name: string;
+  sortOrder: number;
+}
 export type RequestStatus = 'PENDING' | 'SELECTED' | 'CONFIRMED' | 'REJECTED' | 'CANCELLED' | 'COMPLETED';
 
 export interface Subcategory {
@@ -32,6 +41,12 @@ export interface Product {
   unitType: UnitType;
   availability: AvailabilityStatus;
   imageColor: string;
+  /** Optional product photo link. Already supported by the API; empty = coloured box. */
+  imageUrl?: string | null;
+  /** 'individual' (default / all older products) or 'kit' (Project Kit). Missing = individual. */
+  productType?: ProductType;
+  /** Ids of the educational levels this product suits. Missing = none. */
+  educationalLevelIds?: string[];
   active: boolean;
   createdAt: string;
 }

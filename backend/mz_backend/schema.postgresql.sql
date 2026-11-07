@@ -7,6 +7,12 @@ CREATE TABLE admin_users (
 	UNIQUE (username)
 );
 
+CREATE TABLE app_migrations (
+	name VARCHAR NOT NULL, 
+	applied_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (name)
+);
+
 CREATE TABLE categories (
 	id VARCHAR NOT NULL, 
 	name VARCHAR NOT NULL, 
@@ -28,6 +34,16 @@ CREATE TABLE customers (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE educational_levels (
+	id VARCHAR NOT NULL, 
+	group_name VARCHAR NOT NULL, 
+	group_order INTEGER NOT NULL, 
+	name VARCHAR NOT NULL, 
+	sort_order INTEGER NOT NULL, 
+	PRIMARY KEY (id), 
+	CONSTRAINT uq_educational_level_group_name UNIQUE (group_name, name)
+);
+
 CREATE TABLE otp_codes (
 	id VARCHAR NOT NULL, 
 	mobile VARCHAR NOT NULL, 
@@ -35,6 +51,17 @@ CREATE TABLE otp_codes (
 	expires_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
 	verified BOOLEAN, 
 	created_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE settings (
+	id VARCHAR NOT NULL, 
+	business_name VARCHAR, 
+	tagline VARCHAR, 
+	phone VARCHAR, 
+	email VARCHAR, 
+	address VARCHAR, 
+	operating_area VARCHAR, 
 	PRIMARY KEY (id)
 );
 
@@ -144,6 +171,7 @@ CREATE TABLE products (
 	image_url VARCHAR, 
 	active BOOLEAN, 
 	created_at TIMESTAMP WITHOUT TIME ZONE, 
+	product_type VARCHAR DEFAULT 'individual' NOT NULL, 
 	PRIMARY KEY (id), 
 	FOREIGN KEY(category_id) REFERENCES categories (id), 
 	FOREIGN KEY(subcategory_id) REFERENCES subcategories (id)
@@ -188,6 +216,14 @@ CREATE TABLE supplier_info (
 	PRIMARY KEY (id), 
 	UNIQUE (request_id), 
 	FOREIGN KEY(request_id) REFERENCES requests (id)
+);
+
+CREATE TABLE product_educational_levels (
+	product_id VARCHAR NOT NULL, 
+	level_id VARCHAR NOT NULL, 
+	PRIMARY KEY (product_id, level_id), 
+	FOREIGN KEY(product_id) REFERENCES products (id) ON DELETE CASCADE, 
+	FOREIGN KEY(level_id) REFERENCES educational_levels (id) ON DELETE CASCADE
 );
 
 CREATE TABLE quotation_items (

@@ -7,14 +7,14 @@ import { EmptyState } from '../../components/common/Misc';
 
 export default function SearchPage() {
   const navigate = useNavigate();
-  const { products } = useApp();
+  const { buyerProducts } = useApp();
   const [query, setQuery] = useState('');
 
   const results = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.toLowerCase();
-    return products.filter(p => p.active && (p.name.toLowerCase().includes(q) || p.modelNumber.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
-  }, [query, products]);
+    return buyerProducts.filter(p => (p.name.toLowerCase().includes(q) || p.modelNumber.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
+  }, [query, buyerProducts]);
 
   return (
     <div className="max-w-4xl mx-auto px-5 md:px-8 py-6">

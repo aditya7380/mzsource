@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import (
     admin_auth, admin_customers, analytics, buyer_auth, buyer_profile,
-    categories, custom_requests, notifications, products, requests, settings,
+    categories, custom_requests, educational_levels, notifications, products, requests, settings,
 )
 from app.seed import run as seed_run
 
@@ -46,6 +46,7 @@ app.include_router(notifications.router)
 app.include_router(custom_requests.router)
 app.include_router(analytics.router)
 app.include_router(settings.router)
+app.include_router(educational_levels.router)
 
 
 @app.get("/", tags=["Health"])

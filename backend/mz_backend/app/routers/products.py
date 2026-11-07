@@ -38,12 +38,18 @@ def get_product(product_id: str, db: Session = Depends(get_db)):
 def create_product(payload: schemas.ProductCreate, db: Session = Depends(get_db), _admin: models.AdminUser = Depends(get_current_admin)):
     if not crud.get_category(db, payload.category_id):
         raise HTTPException(status_code=400, detail="Invalid categoryId")
-    return crud.create_product(db, payload)
+    try:
+        return crud.create_product(db, payload)
+    except crud.ProductValidationError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
 
 
 @router.patch("/{product_id}", response_model=schemas.ProductOut)
 def update_product(product_id: str, payload: schemas.ProductUpdate, db: Session = Depends(get_db), _admin: models.AdminUser = Depends(get_current_admin)):
-    product = crud.update_product(db, product_id, payload)
+    try:
+        product = crud.update_product(db, product_id, payload)
+    except crud.ProductValidationError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product

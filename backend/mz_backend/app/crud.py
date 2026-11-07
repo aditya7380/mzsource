@@ -151,8 +151,38 @@ def get_product(db: Session, product_id: str) -> Optional[models.Product]:
     return db.query(models.Product).filter(models.Product.id == product_id).first()
 
 
+class ProductValidationError(ValueError):
+    """A product change that breaks a business rule (reported to the admin as HTTP 422)."""
+
+
+KIT_NEEDS_LEVEL = "A Project Kit must have at least one educational level."
+
+
+def _resolve_levels(db: Session, level_ids: List[str]) -> List[models.EducationalLevel]:
+    unique_ids = list(dict.fromkeys(level_ids))  # drop duplicates, keep order
+    if not unique_ids:
+        return []
+    found = db.query(models.EducationalLevel).filter(models.EducationalLevel.id.in_(unique_ids)).all()
+    missing = [i for i in unique_ids if i not in {lvl.id for lvl in found}]
+    if missing:
+        raise ProductValidationError(f"Unknown educational level: {', '.join(missing)}")
+    return found
+
+
+def list_educational_levels(db: Session) -> List[models.EducationalLevel]:
+    return (
+        db.query(models.EducationalLevel)
+        .order_by(models.EducationalLevel.group_order, models.EducationalLevel.sort_order)
+        .all()
+    )
+
+
 def create_product(db: Session, data: schemas.ProductCreate) -> models.Product:
-    product = models.Product(**data.model_dump())
+    levels = _resolve_levels(db, data.educational_level_ids)
+    if data.product_type == "kit" and not levels:
+        raise ProductValidationError(KIT_NEEDS_LEVEL)
+    product = models.Product(**data.model_dump(exclude={"educational_level_ids"}))
+    product.educational_levels = levels
     db.add(product)
     db.commit()
     db.refresh(product)
@@ -163,8 +193,22 @@ def update_product(db: Session, product_id: str, data: schemas.ProductUpdate) ->
     product = get_product(db, product_id)
     if not product:
         return None
-    for field, value in data.model_dump(exclude_unset=True).items():
+    updates = data.model_dump(exclude_unset=True)
+    level_ids = updates.pop("educational_level_ids", None)
+    if updates.get("product_type") is None:
+        updates.pop("product_type", None)  # the column can never be empty
+
+    # Check every rule BEFORE changing anything, so a rejected edit changes nothing.
+    new_levels = _resolve_levels(db, level_ids) if level_ids is not None else None
+    final_type = updates.get("product_type", product.product_type or "individual")
+    final_levels = new_levels if new_levels is not None else product.educational_levels
+    if final_type == "kit" and not final_levels:
+        raise ProductValidationError(KIT_NEEDS_LEVEL)
+
+    for field, value in updates.items():
         setattr(product, field, value)
+    if new_levels is not None:
+        product.educational_levels = new_levels
     db.commit()
     db.refresh(product)
     return product
